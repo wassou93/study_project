@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affiche VoitureController!{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+<div class="wrapper">
+    <h1>La liste de toutes les voitures.</h1>
+    <table border="2px">
+        <tr>
+            <th>Id</th>
+            <th>Marque</th>
+        </tr>
+        {% for i in listV %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.marque | upper }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h1>Le nombre des voitures est: {{ listV | length }}</h1>
+    {% set maxV = 0 %}
+    {% for i in listV %}
+        {% set maxV = max(maxV, i.Vitesse) %}
+    {% endfor %}
+    <h1>Les voitures ayant le plus grande vitesse sont:</h1>
+    <table border="2px">
+        <tr>
+            <th>Id</th>
+            <th>Marque</th>
+            <th>Vitesse</th>
+        </tr>
+        {% for i in listV %}
+            <tr>
+            {% if maxV == i.Vitesse %}
+                <td>{{ i.id }}</td>
+                <td>{{ i.marque }}</td>
+                <td><strong>{{ i.Vitesse }}</strong></td>
+             {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    <h1>La liste des voitures avec un lien <em color="blue">&lt;&lt;detail&gt;&gt;</em>.</h1>
+    <table border="2px">
+        <tr>
+            <th>Id</th>
+            <th>Marque</th>
+            <th>Vitesse</th>
+            <th>Lien Detail</th>
+            <th>Boutton Detail</th>
+        </tr>
+        {% for i in listV %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.marque }}</td>
+                <td>{{ i.Vitesse }}</td>
+                <td><a href={{ path ('affiche_voiture_vp', {'vitesse':i.Vitesse, 'puissance': i.puissance}) }}>More details...</a></td>
+                <td>
+                    <form action={{ path ('affiche_voiture_vp', {'vitesse':i.Vitesse, 'puissance': i.puissance}) }}>
+                        <input type="submit" value="More details">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
