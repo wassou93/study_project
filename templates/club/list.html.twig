@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClubController!{% endblock %}
+
+{% block body %}
+
+    <style>
+    </style>
+
+    <h1>La liste des formations est </h1>
+
+    <div class="wrapper">
+        <h3>Titres des formations en Majuscule:</h3>
+        {% set nbFormtions = 0 %}
+        {% for i in listF %}
+            {% set nbFormtions = nbFormtions + 1 %}
+        <strong>{{ nbFormtions ~ '/ '}}</strong>{{ i.Titre | upper }} <br>
+        {% endfor %}
+
+        <h3>Le nombre des formations est: <strong>{{ listF | length }}</strong></h3>
+
+        <h3>Titres des formations théoriques:</h3>
+        {% set nbFormtionsTheoriques = 0 %}
+        {% for i in listF %}
+            {% if 'theorique' in i.Description %}
+                {% set nbFormtionsTheoriques = nbFormtionsTheoriques + 1 %}
+                <strong>{{ nbFormtionsTheoriques ~ '/ '}}</strong>{{ i.Titre }} <br>
+            {% endif %}
+        {% endfor %}
+
+        <h3>Afficher la formation ayant le plus grand nombre de participants.</h3>
+        {% set nbParticipantsMax = 0 %}
+        {% set nbParticipantsTotal = 0 %}
+        {% for i in listF %}
+        {% set nbParticipantsMax = max(i.nb_participants, nbParticipantsMax) %}
+        {% set nbParticipantsTotal = nbParticipantsTotal + i.nb_participants  %}
+        {% endfor %}
+        {% for i in listF %}
+            {% if i.nb_participants == nbParticipantsMax %}
+                <span>Le nom de la formation est: {{ i.Titre }}</span>
+            {% endif %}
+        {% endfor %}
+
+        <h3>Afficher le nombre total des participants.</h3>
+        <span>Le nombre total des participants est: {{ nbParticipantsTotal }}</span>
+
+        <h3>Ajouter des participants aux formations qui n'en ont pas.</h3>
+        {% set nbFormtions = 0 %}
+        {% for i in listF %}
+            {% set nbFormtions = nbFormtions + 1 %}
+            <strong>{{ nbFormtions ~ '/ '}}</strong>{{ i.Titre }}
+            {% if i.nb_participants == 0 %}
+                <form style="display: inline" action={{ path('get_nom', {'nom': i.Titre}) }}>
+                    <input type="submit" value="Participer">
+                </form>
+            {% endif %}
+            <br>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
