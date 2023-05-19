@@ -6,9 +6,37 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    .twig-green {color: limegreen; font-weight: bolder; font-size: larger; font-family: "JetBrains Mono", monospace}
+    .twig-red {color: red; font-weight: bolder; font-size: larger; font-family: "JetBrains Mono", monospace}
+    .twig-text {color: navajowhite; font-weight: bolder; font-size: larger; font-family: "JetBrains Mono",monospace}
+
 </style>
 
 <div class="example-wrapper">
     <h1>Mon métier de rêve est: {{ metier }}!</h1>
+    <div class="twig-text">
+        Twig conditions ->
+        {% set x = 98 %}
+        {% set tab = {'first': 12, 'second': 98} %}
+        {% if tab is iterable and x is not empty and tab['first'] is defined and x is even %}
+            <span class="twig-green">{{ 'Yes' }}</span>
+        {% else %}
+            <span class="twig-red">{{ 'No' }} </span>
+        {% endif %}
+        <div>---------------------------</div>
+        Twig conditions ->
+        {% if tab['second'] is same as x %}
+            <span class="twig-green">{{ 'Yes' }}</span>
+        {% else %}
+            <span class="twig-red">{{ 'No' }} </span>
+        {% endif %}
+        <div>---------------------------</div>
+        Twig conditions ->
+        <span class="twig-{{ x is even ? 'green' : 'red' }}">
+            {{ x is even ? 'Yes' : 'No' }}
+        </span>
+
+    </div>
 </div>
 {% endblock %}
